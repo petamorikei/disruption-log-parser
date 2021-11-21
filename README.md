@@ -28,7 +28,7 @@ deno run --allow-read --allow-env=LOCALAPPDATA .\main.ts [path\to\EE.log]
 
 ## Build
 ```
-deno compile --allow-read --allow-env=LOCALAPPDATA .\main.ts [path\to\EE.log]
+deno compile --allow-read --allow-env=LOCALAPPDATA --output "Disruption Log Parser.exe" .\main.ts [path\to\EE.log]
 ```
 
 ## Caveats
