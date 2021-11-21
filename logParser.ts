@@ -4,9 +4,9 @@ import { regex } from "./regex.ts";
 import { RoundStats } from "./RoundStats.ts";
 import { subTo3Decimals, formatTime } from "./utils.ts";
 
-// TODO: Log player name -> Parse join log
 // TODO: Error message if there is no disruption log
 // TODO: Get mission score
+// TODO: Check how this works when you leave mission alone as host
 
 const outputRoundStats = (roundStats: RoundStats) => {
   let conduitResultEmoji = "";
@@ -27,7 +27,8 @@ const outputRoundStats = (roundStats: RoundStats) => {
 };
 
 const outputMissionStats = (missionStats: MissionStats) => {
-  console.log(`Mission: ${missionStats.missionName}`);
+  console.log(`💠 Mission: ${missionStats.missionName}`);
+  console.log(`🎮 Player : ` + `${missionStats.players}`.replaceAll(",", ", "));
   console.log("============================================================");
   console.log("       Phase       Conduit       Time         Total Time    ");
   console.log("------------------------------------------------------------");
@@ -61,6 +62,7 @@ const outputMissionStats = (missionStats: MissionStats) => {
     missionStats.rounds.length;
   console.log(`Average Time : ${formatTime(averageTime, 3)}`);
   console.log(`Total Time   : ${formatTime(missionStats.totalTime, 3)}`);
+  console.log();
 };
 
 const outputStats = (missionStatsList: MissionStats[]) => {
@@ -76,6 +78,7 @@ export const parseLog = (logData: string) => {
   const missionStatsList: Array<MissionStats> = [];
   let missionStats: MissionStats = new MissionStats();
   let roundStats: RoundStats = new RoundStats();
+  let players: Array<string> = [];
 
   const extractTimeStamp = (line: string): number => {
     return parseFloat(line.match(/^[0-9.]+/)![0]);
@@ -110,10 +113,6 @@ export const parseLog = (logData: string) => {
       } else if (modeState === ModeState.UNLOCK_DOOR) {
         // Beginning of mission before unlock door
         missionStats = new MissionStats(missionName);
-        if (isExtracted === false) {
-          currentRound = 0;
-        }
-        isExtracted = false;
         missionStats.startTimeStamp = extractTimeStamp(line);
       }
     } else if (line.match(regex.completedDefence)) {
@@ -121,8 +120,16 @@ export const parseLog = (logData: string) => {
     } else if (line.match(regex.failedDefence)) {
       roundStats.conduitResult.push(false);
     } else if (line.match(regex.missionInfo)) {
+      players = [];
+      if (isExtracted === false) {
+        currentRound = 0;
+      }
+      isExtracted = false;
       missionName = line.split(": ")[3];
+    } else if (line.match(regex.createPlayerForClient)) {
+      players.push(line.split("=")[2]);
     } else if (line.match(regex.endOfMission)) {
+      missionStats.players = players.concat();
       missionStats.extractionTimeStamp = extractTimeStamp(line);
       missionStats.timeAfterLastRound = subTo3Decimals(
         calcPastTimeFromStartOfMission(line),
