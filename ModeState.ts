@@ -1,0 +1,8 @@
+export enum ModeState {
+  MISSION_SETUP = 1,
+  UNLOCK_DOOR = 2,
+  ARTIFACT_ROUND = 3,
+  ARTIFACT_ROUND_DONE = 4,
+  REWARDS_HOST = 5,
+  INTERVAL = 6,
+}
