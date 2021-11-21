@@ -33,3 +33,4 @@ deno compile --allow-read --allow-env=LOCALAPPDATA --output "DisruptionLogParser
 
 ## Caveats
 - This tool reads your `EE.log` file located in `%LOCALAPPDATA%\Warframe\` and parses it.
+- This tool can only analyze the mission when you were the host.
