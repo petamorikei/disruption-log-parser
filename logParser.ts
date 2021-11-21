@@ -5,10 +5,15 @@ import { RoundStats } from "./RoundStats.ts";
 import { subTo3Decimals, formatTime } from "./utils.ts";
 
 // TODO: Error message if there is no disruption log
-// TODO: Get mission score
 // TODO: Check how this works when you leave mission alone as host
 
-const outputRoundStats = (roundStats: RoundStats) => {
+const outputRoundStats = (
+  roundStats: RoundStats,
+  fastestTime: number,
+  slowestTime: number
+) => {
+  const colorIntensity =
+    (1 - (roundStats.time - fastestTime) / (slowestTime - fastestTime)) * 255;
   let conduitResultEmoji = "";
   for (const result of roundStats.conduitResult) {
     conduitResultEmoji += result ? "✅" : "❌";
@@ -20,13 +25,22 @@ const outputRoundStats = (roundStats: RoundStats) => {
       ? ` ${roundStats.roundIndex}`
       : `${roundStats.roundIndex}`;
   console.log(
-    `Round ${formattedRound}   :  ${conduitResultEmoji} ${formatTime(
+    `Round ${formattedRound}   :  ${conduitResultEmoji} %c${formatTime(
       roundStats.time
-    )}  ${formatTime(roundStats.totalTime, 3)}`
+    )}  %c${formatTime(roundStats.totalTime, 3)}`,
+    `color: rgb(255,${colorIntensity},${colorIntensity})`,
+    "color: nocolor"
   );
 };
 
 const outputMissionStats = (missionStats: MissionStats) => {
+  const fastestTime = missionStats.rounds.reduce((fastest, roundStats) =>
+    fastest.time < roundStats.time ? fastest : roundStats
+  ).time;
+  const slowestTime = missionStats.rounds.reduce((slowest, roundStats) =>
+    slowest.time > roundStats.time ? slowest : roundStats
+  ).time;
+
   console.log(`▶ Mission: ${missionStats.missionName}`);
   console.log(`▷ Player : ` + `${missionStats.players}`.replaceAll(",", ", "));
   console.log("============================================================");
@@ -39,7 +53,7 @@ const outputMissionStats = (missionStats: MissionStats) => {
     )}  ${formatTime(missionStats.timeBeforeUnlockDoor, 3)}`
   );
   for (const roundStats of missionStats.rounds) {
-    outputRoundStats(roundStats);
+    outputRoundStats(roundStats, fastestTime, slowestTime);
   }
   console.log(
     `Extraction  :           ${formatTime(
