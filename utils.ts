@@ -22,3 +22,11 @@ export const formatTime = (
 
   return `${minutesStr} ${secondsStr} ${milisecondsStr}`;
 };
+
+export const formatRound = (roundIndex: number) => {
+  return roundIndex < 10
+    ? `  ${roundIndex}`
+    : roundIndex < 100
+    ? ` ${roundIndex}`
+    : `${roundIndex}`;
+};

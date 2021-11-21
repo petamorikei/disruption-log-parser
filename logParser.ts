@@ -2,7 +2,7 @@ import { MissionStats } from "./MissionStats.ts";
 import { ModeState } from "./ModeState.ts";
 import { regex } from "./regex.ts";
 import { RoundStats } from "./RoundStats.ts";
-import { subTo3Decimals, formatTime } from "./utils.ts";
+import { subTo3Decimals, formatTime, formatRound } from "./utils.ts";
 
 // TODO: Error message if there is no disruption log
 // TODO: Check how this works when you leave mission alone as host
@@ -18,12 +18,7 @@ const outputRoundStats = (
   for (const result of roundStats.conduitResult) {
     conduitResultEmoji += result ? "✅" : "❌";
   }
-  const formattedRound =
-    roundStats.roundIndex < 10
-      ? `  ${roundStats.roundIndex}`
-      : roundStats.roundIndex < 100
-      ? ` ${roundStats.roundIndex}`
-      : `${roundStats.roundIndex}`;
+  const formattedRound = formatRound(roundStats.roundIndex);
   console.log(
     `Round ${formattedRound}   :  ${conduitResultEmoji} %c${formatTime(
       roundStats.time
