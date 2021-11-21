@@ -21,6 +21,8 @@ const main = () => {
   }
   const logData = readLog(eelogPath);
   parseLog(logData);
+
+  prompt("Press any key to exit...");
 };
 
 main();
