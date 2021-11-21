@@ -3,6 +3,7 @@ import { RoundStats } from "./RoundStats.ts";
 export class MissionStats {
   private _players: Array<string>;
   private _missionName: string;
+  private _missionScore: number;
   private _totalTime: number;
   private _timeBeforeUnlockDoor: number;
   private _timeAfterLastRound: number;
@@ -14,6 +15,7 @@ export class MissionStats {
   constructor(missionName: string = "") {
     this._players = new Array<string>();
     this._missionName = missionName;
+    this._missionScore = 0;
     this._totalTime = 0;
     this._timeBeforeUnlockDoor = 0;
     this._timeAfterLastRound = 0;
@@ -35,6 +37,13 @@ export class MissionStats {
   }
   set missionName(value: string) {
     this._missionName = value;
+  }
+
+  get missionScore(): number {
+    return this._missionScore;
+  }
+  set missionScore(value: number) {
+    this._missionScore = value;
   }
 
   get totalTime(): number {

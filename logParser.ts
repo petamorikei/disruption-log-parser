@@ -49,19 +49,22 @@ const outputMissionStats = (missionStats: MissionStats) => {
   console.groupEnd();
   console.log("============================================================");
   console.log(
-    `Conduit      : ` +
+    `Conduit       : ` +
       `${missionStats.totalConduitSucceeded}/${missionStats.totalConduit}`.padStart(
         14,
         " "
       )
+  );
+  console.log(
+    `Mission Score : ` + `${missionStats.missionScore}`.padStart(14, " ")
   );
   const averageTime =
     (missionStats.totalTime -
       missionStats.timeBeforeUnlockDoor -
       missionStats.timeAfterLastRound) /
     missionStats.rounds.length;
-  console.log(`Average Time : ${formatTime(averageTime, 3)}`);
-  console.log(`Total Time   : ${formatTime(missionStats.totalTime, 3)}`);
+  console.log(`Average Time  : ${formatTime(averageTime, 3)}`);
+  console.log(`Total Time    : ${formatTime(missionStats.totalTime, 3)}`);
   console.log();
 };
 
@@ -128,6 +131,9 @@ export const parseLog = (logData: string) => {
       missionName = line.split(": ")[3];
     } else if (line.match(regex.createPlayerForClient)) {
       players.push(line.split("=")[2]);
+    } else if (line.match(regex.missionScore)) {
+      const missionScore = parseInt(line.match(/[0-9]+$/)![0]);
+      missionStats.missionScore = missionScore;
     } else if (line.match(regex.endOfMission)) {
       missionStats.players = players.concat();
       missionStats.extractionTimeStamp = extractTimeStamp(line);

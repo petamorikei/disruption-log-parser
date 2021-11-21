@@ -8,6 +8,8 @@ export const regex = {
   failedDefence:
     /^([0-9.]+) Script \[Info\]: SentientArtifactMission.lua: Disruption: Failed defense for artifact [1234]/,
   createPlayerForClient: /^([0-9.]+) Game \[Info\]: CreatePlayerForClient./,
+  missionScore:
+    /^([0-9.]+) Script \[Info\]: SentientArtifactMission.lua: Disruption: Total score is/,
   endOfMission:
     /^([0-9.]+) Script \[Info\]: ExtractionTimer.lua: EOM: All players extracting/,
 };
