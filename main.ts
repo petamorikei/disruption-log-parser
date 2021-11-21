@@ -16,11 +16,16 @@ const main = () => {
     if (localAppDataPath) {
       eelogPath = path.join(localAppDataPath, "Warframe", "EE.log");
     } else {
-      throw new Error("EE.log does NOT exist");
+      throw new Error("%LOCALAPPDATA% does NOT exist");
     }
   }
-  const logData = readLog(eelogPath);
-  parseLog(logData);
+  try {
+    const logData = readLog(eelogPath);
+    parseLog(logData);
+  } catch (error) {
+    console.error(error);
+    console.log();
+  }
 
   prompt("Press any key to exit...");
 };
