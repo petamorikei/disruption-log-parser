@@ -7,22 +7,14 @@ const readLog = (path: string) => {
   return data;
 };
 
-// TODO: Check environment variable "localappdata"
-
 const main = () => {
   let eelogPath: string | undefined;
   if (Deno.args.length !== 0) {
     eelogPath = Deno.args[0];
   } else {
-    const userProfilePath = Deno.env.get("USERPROFILE");
-    if (userProfilePath) {
-      eelogPath = path.join(
-        userProfilePath,
-        "AppData",
-        "Local",
-        "Warframe",
-        "EE.log"
-      );
+    const localAppDataPath = Deno.env.get("LOCALAPPDATA");
+    if (localAppDataPath) {
+      eelogPath = path.join(localAppDataPath, "Warframe", "EE.log");
     } else {
       throw new Error("EE.log does NOT exist");
     }
