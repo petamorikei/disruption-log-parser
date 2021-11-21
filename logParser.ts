@@ -27,8 +27,8 @@ const outputRoundStats = (roundStats: RoundStats) => {
 };
 
 const outputMissionStats = (missionStats: MissionStats) => {
-  console.log(`💠 Mission: ${missionStats.missionName}`);
-  console.log(`🎮 Player : ` + `${missionStats.players}`.replaceAll(",", ", "));
+  console.log(`▶ Mission: ${missionStats.missionName}`);
+  console.log(`▷ Player : ` + `${missionStats.players}`.replaceAll(",", ", "));
   console.log("============================================================");
   console.log("       Phase       Conduit       Time         Total Time    ");
   console.log("------------------------------------------------------------");
