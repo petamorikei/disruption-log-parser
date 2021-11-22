@@ -36,7 +36,7 @@ scoop install deno
 deno run --allow-read --allow-env=LOCALAPPDATA .\main.ts [path\to\EE.log]
 ```
 
-Default to read from `%LOCALAPPDATA%\Warframe\EE.log`
+Default to read `%LOCALAPPDATA%\Warframe\EE.log`
 
 ## Build
 
@@ -44,7 +44,7 @@ Default to read from `%LOCALAPPDATA%\Warframe\EE.log`
 deno compile --allow-read --allow-env=LOCALAPPDATA --output "DisruptionLogParser.exe" .\main.ts [path\to\EE.log]
 ```
 
-Default to read from `%LOCALAPPDATA%\Warframe\EE.log`
+Default to read `%LOCALAPPDATA%\Warframe\EE.log`
 
 ## Caveats
 
