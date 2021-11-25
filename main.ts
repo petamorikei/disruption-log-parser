@@ -1,6 +1,7 @@
 import * as path from "https://deno.land/std@0.115.1/path/mod.ts";
 
 import { parseLog } from "./logParser.ts";
+import { outputStats } from "./logger.ts";
 
 const readLog = (path: string) => {
   const data = Deno.readTextFileSync(path);
@@ -21,12 +22,14 @@ const main = () => {
   }
   try {
     const logData = readLog(eelogPath);
-    parseLog(logData);
+    const stats = parseLog(logData);
+    outputStats(stats);
   } catch (error) {
     console.error(error);
     console.log();
   }
 
+  console.log();
   prompt("Press any key to exit...");
 };
 
