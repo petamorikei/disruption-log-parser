@@ -84,7 +84,7 @@ const outputStats = (missionStatsList: MissionStats[]) => {
 };
 
 export const parseLog = (logData: string) => {
-  let isExtracted = false;
+  let disruptionStarted = false;
   let missionName = "";
   let currentRound = 0;
   const missionStatsList: Array<MissionStats> = [];
@@ -105,7 +105,7 @@ export const parseLog = (logData: string) => {
       if (
         currentRound === 0 &&
         modeState === ModeState.ARTIFACT_ROUND &&
-        isExtracted === false
+        disruptionStarted === true
       ) {
         // Beginning of first round
         roundStats = new RoundStats(++currentRound);
@@ -124,6 +124,10 @@ export const parseLog = (logData: string) => {
         roundStats = new RoundStats(++currentRound);
       } else if (modeState === ModeState.UNLOCK_DOOR) {
         // Beginning of mission before unlock door
+        if (disruptionStarted) {
+          currentRound = 0;
+        }
+        disruptionStarted = true;
         missionStats = new MissionStats(missionName);
         missionStats.startTimeStamp = extractTimeStamp(line);
       }
@@ -133,18 +137,14 @@ export const parseLog = (logData: string) => {
       roundStats.conduitResult.push(false);
     } else if (line.match(regex.missionInfo)) {
       players = [];
-      if (isExtracted === false) {
-        currentRound = 0;
-      }
-      isExtracted = false;
       missionName = line.split(": ")[3];
     } else if (line.match(regex.createPlayerForClient)) {
       players.push(line.split("=")[2]);
     } else if (line.match(regex.missionScore)) {
       const missionScore = parseInt(line.match(/[0-9]+$/)![0]);
       missionStats.missionScore = missionScore;
-    } else if (line.match(regex.endOfMission)) {
-      missionStats.players = players.concat();
+    } else if (line.match(regex.endOfMission) && disruptionStarted) {
+      missionStats.players = [...players];
       missionStats.extractionTimeStamp = extractTimeStamp(line);
       missionStats.timeAfterLastRound = subTo3Decimals(
         calcPastTimeFromStartOfMission(line),
@@ -154,7 +154,7 @@ export const parseLog = (logData: string) => {
         missionStats.extractionTimeStamp,
         missionStats.startTimeStamp
       );
-      isExtracted = true;
+      disruptionStarted = false;
       currentRound = 0;
       missionStatsList.push(missionStats);
     }
