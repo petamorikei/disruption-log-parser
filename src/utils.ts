@@ -10,7 +10,7 @@ export const formatTime = (
   time: number,
   minDigit = 2,
   secDigit = 2,
-  msDigit = 3
+  msDigit = 3,
 ) => {
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time) - minutes * 60;

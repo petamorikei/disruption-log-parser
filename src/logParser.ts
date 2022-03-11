@@ -39,7 +39,7 @@ export const parseLog = (logData: string) => {
         // End of round
         roundStats.time = subTo3Decimals(
           calcPastTimeFromStartOfMission(line),
-          missionStats.totalTime
+          missionStats.totalTime,
         );
         missionStats.totalTime = calcPastTimeFromStartOfMission(line);
         roundStats.totalTime = missionStats.totalTime;
@@ -71,11 +71,11 @@ export const parseLog = (logData: string) => {
       missionStats.extractionTimeStamp = extractTimeStamp(line);
       missionStats.timeAfterLastRound = subTo3Decimals(
         calcPastTimeFromStartOfMission(line),
-        missionStats.totalTime
+        missionStats.totalTime,
       );
       missionStats.totalTime = subTo3Decimals(
         missionStats.extractionTimeStamp,
-        missionStats.startTimeStamp
+        missionStats.startTimeStamp,
       );
       disruptionStarted = false;
       currentRound = 0;

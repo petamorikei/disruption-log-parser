@@ -2,7 +2,8 @@
 
 Disruption Log Parser for Warframe.
 
-- Analyze the log file and extract disruption mission info includes conduit result, lap time per round and mission score.
+- Analyze the log file and extract disruption mission info includes conduit
+  result, lap time per round and mission score.
 
 <img width="360" alt="image" src="https://user-images.githubusercontent.com/59867960/143371328-83b7507a-099d-4200-a174-2adf846586c6.png">
 
@@ -56,5 +57,6 @@ Default to read `%LOCALAPPDATA%\Warframe\EE.log`
 
 ## Caveats
 
-- This tool reads your `EE.log` file located in `%LOCALAPPDATA%\Warframe\` and parses it.
+- This tool reads your `EE.log` file located in `%LOCALAPPDATA%\Warframe\` and
+  parses it.
 - This tool can only analyze the mission when you were the host.
