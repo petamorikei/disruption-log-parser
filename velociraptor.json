@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "start": {
+      "desc": "Run script.",
+      "cmd": "deno run --allow-read --allow-env=LOCALAPPDATA src/main.ts"
+    },
+    "build": {
+      "desc": "Build executable. (for Windows)",
+      "cmd": "deno compile --allow-read --allow-env=LOCALAPPDATA --output 'DisruptionLogParser.exe' src/main.ts"
+    },
+    "test": {
+      "desc": "Run tests.",
+      "cmd": "deno test"
+    }
+  }
+}
