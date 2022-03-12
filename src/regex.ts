@@ -10,6 +10,7 @@ export const regex = {
   createPlayerForClient: /^([0-9.]+) Game \[Info\]: CreatePlayerForClient./,
   missionScore:
     /^([0-9.]+) Script \[Info\]: SentientArtifactMission.lua: Disruption: Total score is/,
-  endOfMission:
+  endOfMatch:
     /^([0-9.]+) Script \[Info\]: ExtractionTimer.lua: EOM: All players extracting/,
+  missionFailed: /^([0-9.]+) Script \[Info\]: EndOfMatch.lua: Mission Failed/,
 };

@@ -1,14 +1,16 @@
 export class RoundStats {
   private _roundIndex: number;
   private _conduitResult: Array<boolean>;
-  private _time: number;
-  private _totalTime: number;
+  private _startTimeStamp: number;
+  private _endTimeStamp: number;
+  private _totalDuration: number;
 
   constructor(roundIndex: number = 0) {
     this._roundIndex = roundIndex;
     this._conduitResult = new Array<boolean>();
-    this._time = 0;
-    this._totalTime = 0;
+    this._startTimeStamp = 0;
+    this._endTimeStamp = 0;
+    this._totalDuration = 0;
   }
 
   get roundIndex(): number {
@@ -25,17 +27,33 @@ export class RoundStats {
     this._conduitResult = value;
   }
 
-  get time(): number {
-    return this._time;
+  get startTimeStamp(): number {
+    return this._startTimeStamp;
   }
-  set time(value: number) {
-    this._time = value;
+  set startTimeStamp(value: number) {
+    this._startTimeStamp = value;
   }
 
-  get totalTime(): number {
-    return this._totalTime;
+  get endTimeStamp(): number {
+    return this._endTimeStamp;
   }
-  set totalTime(value: number) {
-    this._totalTime = value;
+  set endTimeStamp(value: number) {
+    this._endTimeStamp = value;
+  }
+
+  get totalDuration(): number {
+    return this._totalDuration;
+  }
+
+  set totalDuration(duration: number) {
+    this._totalDuration = duration;
+  }
+
+  get durationExcludingInterval(): number {
+    return this._endTimeStamp - this._startTimeStamp;
+  }
+
+  get isCompleted(): boolean {
+    return this._conduitResult.length === 4;
   }
 }

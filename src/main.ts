@@ -1,32 +1,38 @@
 import * as path from "https://deno.land/std@0.115.1/path/mod.ts";
 
-import { parseLog } from "./logParser.ts";
-import { outputStats } from "./logger.ts";
+import { Logger } from "./Logger.ts";
+import { LogParser } from "./LogParser.ts";
 
-const readLog = (path: string) => {
-  const data = Deno.readTextFileSync(path);
-  return data;
-};
+const version = "v0.3.0";
+const author = "@petamorikei";
 
-const main = () => {
-  let eelogPath: string | undefined;
-  if (Deno.args.length !== 0) {
-    eelogPath = Deno.args[0];
+const getLogPath = (args: string[]) => {
+  if (args.length > 0) {
+    return args[0];
   } else {
     const localAppDataPath = Deno.env.get("LOCALAPPDATA");
     if (localAppDataPath) {
-      eelogPath = path.join(localAppDataPath, "Warframe", "EE.log");
+      return path.join(localAppDataPath, "Warframe", "EE.log");
     } else {
       throw new Error("%LOCALAPPDATA% does NOT exist");
     }
   }
+};
+
+const main = async () => {
+  console.log(`Disruption Log Parser ${version} by ${author}`);
   try {
-    const logData = readLog(eelogPath);
-    const stats = parseLog(logData);
-    outputStats(stats);
-  } catch (error) {
-    console.error(error);
-    console.log();
+    const logPath = getLogPath(Deno.args);
+    try {
+      const logParser = new LogParser();
+      const stats = await logParser.parse(logPath);
+      const logger = new Logger();
+      logger.outputStats(stats);
+    } catch (error) {
+      console.error(error);
+    }
+  } catch (e) {
+    console.error(e);
   }
 
   console.log();
