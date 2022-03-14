@@ -7,14 +7,14 @@ Disruption Log Parser for Warframe.
 Analyze the log file and extract disruption mission info including conduit
 results, lap time per round, and mission score.
 
+<img width="360" alt="image" src="https://user-images.githubusercontent.com/59867960/143371328-83b7507a-099d-4200-a174-2adf846586c6.png">
+
 ### About time splitting
 
 - Unlock Door: From beginning of the mission to door unlock.
 - 1st round: From door unlock to end of the round.
 - 2nd - last round: From end of previous round to end of round (including interval).
 - Extraction: From end of last round to extraction. This block is omitted if you leave mission in the middle of round.
-
-<img width="360" alt="image" src="https://user-images.githubusercontent.com/59867960/143371328-83b7507a-099d-4200-a174-2adf846586c6.png">
 
 ## Usage
 
