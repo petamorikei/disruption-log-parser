@@ -51,7 +51,7 @@ scoop install deno
 ### Run Disruption Log Parser
 
 ```
-deno run --allow-read --allow-env=LOCALAPPDATA .\main.ts [path\to\EE.log]
+deno run --allow-read --allow-env=LOCALAPPDATA ./src/main.ts [path/to/EE.log]
 ```
 
 Default to read `%LOCALAPPDATA%\Warframe\EE.log`
@@ -61,13 +61,13 @@ Default to read `%LOCALAPPDATA%\Warframe\EE.log`
 - Windows
 
 ```
-deno compile --allow-read --allow-env=LOCALAPPDATA --output "DisruptionLogParser.exe" .\main.ts [path\to\EE.log]
+deno compile --allow-read --allow-env=LOCALAPPDATA --output "DisruptionLogParser.exe" ./src/main.ts [path/to/EE.log]
 ```
 
 - Cross compile (from other systems to Windows)
 
 ```
-deno compile --allow-read --allow-env=LOCALAPPDATA --output "DisruptionLogParser" --target x86_64-pc-windows-msvc ./main.ts [path\to\EE.log]
+deno compile --allow-read --allow-env=LOCALAPPDATA --output "DisruptionLogParser" --target x86_64-pc-windows-msvc ./src/main.ts [path/to/EE.log]
 ```
 
 Default to read `%LOCALAPPDATA%\Warframe\EE.log`
