@@ -1,3 +1,5 @@
+import { compare } from "https://esm.sh/compare-versions";
+
 export const addTo3Decimals = (...args: Array<number>) => {
   return Math.round(args.reduce((acc, curr) => acc + curr, 0) * 1000) / 1000;
 };
@@ -29,4 +31,31 @@ export const formatRound = (roundIndex: number) => {
     : roundIndex < 100
     ? ` ${roundIndex}`
     : `${roundIndex}`;
+};
+
+export const checkUpdate = async (currVer: string) => {
+  const response = await fetch(
+    "https://api.github.com/repos/petamorikei/disruption-log-parser/releases/latest",
+  );
+  if (response.ok) {
+    const json = await response.json();
+    const latestVer = json.tag_name;
+    if (latestVer) {
+      if (compare(currVer.slice(1), latestVer.slice(1), "<")) {
+        console.log(
+          `%cNew version available! => ${latestVer}`,
+          "color: yellow",
+        );
+        console.log(
+          `Download latest version from here: https://github.com/petamorikei/disruption-log-parser/releases/tag/latest`,
+        );
+      } else {
+        console.log("%cYou're up-to-date!", "color: green");
+      }
+    } else {
+      console.warn("%cVersion info not found", "color: orange");
+    }
+  } else {
+    console.error("%cFailed to fetch version info", "color: red");
+  }
 };

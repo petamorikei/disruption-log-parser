@@ -2,6 +2,7 @@ import * as path from "https://deno.land/std@0.115.1/path/mod.ts";
 
 import { Logger } from "./Logger.ts";
 import { LogParser } from "./LogParser.ts";
+import { checkUpdate } from "./utils.ts";
 
 const version = "v0.3.0";
 const author = "@petamorikei";
@@ -21,6 +22,7 @@ const getLogPath = (args: string[]) => {
 
 const main = async () => {
   console.log(`Disruption Log Parser ${version} by ${author}`);
+  await checkUpdate(version);
   try {
     const logPath = getLogPath(Deno.args);
     try {
