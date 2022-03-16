@@ -30,11 +30,11 @@ export class LogParser {
         break;
       } else {
         const line = iter.value;
-        if (line.match(regex.createPlayerForClient)) {
+        if (regex.createPlayerForClient.test(line)) {
           missionStats.players.push(line.split("=").at(-1) || "N/A");
-        } else if (line.match(regex.missionScore)) {
+        } else if (regex.missionScore.test(line)) {
           missionStats.missionScore = parseInt(line.match(/[0-9]+$/)![0]);
-        } else if (line.match(regex.modeState)) {
+        } else if (regex.modeState.test(line)) {
           const modeState = parseInt(line[line.length - 1]);
           if (modeState === ModeState.UNLOCK_DOOR) {
             // Record start timestamp of the mission.
@@ -63,12 +63,12 @@ export class LogParser {
               break;
             }
           }
-        } else if (line.match(regex.endOfMatch)) {
+        } else if (regex.endOfMatch.test(line)) {
           // Extraction during round interval.
           missionStats.extractionTimeStamp = this.extractTimeStamp(line);
           missionStats.setTotalDurationOfRounds();
           break;
-        } else if (line.match(regex.missionFailed)) {
+        } else if (regex.missionFailed.test(line)) {
           // Failure during round interval.
           missionStats.extractionTimeStamp = this.extractTimeStamp(line);
           missionStats.setTotalDurationOfRounds();
@@ -88,21 +88,21 @@ export class LogParser {
         break;
       } else {
         const line = iter.value;
-        if (line.match(regex.modeState)) {
+        if (regex.modeState.test(line)) {
           const modeState = parseInt(line[line.length - 1]);
           if (modeState === ModeState.ARTIFACT_ROUND_DONE) {
             roundStats.endTimeStamp = this.extractTimeStamp(line);
             break;
           }
-        } else if (line.match(regex.completedDefence)) {
+        } else if (regex.completedDefence.test(line)) {
           roundStats.conduitResult.push(true);
-        } else if (line.match(regex.failedDefence)) {
+        } else if (regex.failedDefence.test(line)) {
           roundStats.conduitResult.push(false);
-        } else if (line.match(regex.endOfMatch)) {
+        } else if (regex.endOfMatch.test(line)) {
           // Extraction during round.
           roundStats.endTimeStamp = this.extractTimeStamp(line);
           break;
-        } else if (line.match(regex.missionFailed)) {
+        } else if (regex.missionFailed.test(line)) {
           // Failure during round.
           roundStats.endTimeStamp = this.extractTimeStamp(line);
           roundStats.isMissionFailedDuringRound = true;
@@ -126,9 +126,9 @@ export class LogParser {
         break;
       } else {
         const line = iter.value;
-        if (line.match(regex.missionInfo)) {
+        if (regex.missionInfo.test(line)) {
           latestMissionName = line.split(": ").at(-1) || "N/A";
-        } else if (line.match(regex.startupTime)) {
+        } else if (regex.startupTime.test(line)) {
           const [month, date, time, year] = line.split(": ")[2].split(
             " ",
           ).slice(1, 5);
