@@ -3,9 +3,6 @@ import { RoundStats } from "./RoundStats.ts";
 import { formatRound, formatTime } from "./utils.ts";
 
 export class Logger {
-  constructor() {
-  }
-
   outputRoundStats(
     roundStats: RoundStats,
     fastestTime: number,
@@ -27,14 +24,19 @@ export class Logger {
           roundStats.totalDuration,
         )
       }  %c${formatTime(timeElapsed, 3)}`,
-      `color: rgb(255,${colorIntensity},${colorIntensity})`,
+      roundStats.isFinished
+        ? `color: rgb(255,${colorIntensity},${colorIntensity})`
+        : `color: rgb(255,255,0)`,
       "color: nocolor",
     );
   }
 
   outputMissionStats(missionStats: MissionStats) {
+    const completedRounds = missionStats.rounds.filter((round) =>
+      round.isFinished === true
+    );
     const fastestTime =
-      missionStats.rounds.reduce((fastest, roundStats) =>
+      completedRounds.reduce((fastest, roundStats) =>
         fastest.totalDuration < roundStats.totalDuration ? fastest : roundStats
       ).totalDuration;
     const slowestTime =
@@ -42,7 +44,10 @@ export class Logger {
         slowest.totalDuration > roundStats.totalDuration ? slowest : roundStats
       ).totalDuration;
 
-    console.log();
+    console.log("============================================================");
+    console.log(
+      `       --- Mission started on ${missionStats.startDate.toLocaleString()} ---`,
+    );
     console.log(`▶ Mission: ${missionStats.missionName}`);
     console.log(
       `▷ Player : ` + `${missionStats.players}`.replaceAll(",", ", "),
@@ -81,7 +86,7 @@ export class Logger {
     console.groupEnd();
     console.log("============================================================");
     console.log(
-      `Conduit       : ` +
+      `  Conduit       : ` +
         `${missionStats.totalConduitSucceeded}/${missionStats.totalConduit}`
           .padStart(
             14,
@@ -89,14 +94,21 @@ export class Logger {
           ),
     );
     console.log(
-      `Mission Score : ` + `${missionStats.missionScore}`.padStart(14, " "),
+      `  Mission Score : ` + `${missionStats.missionScore}`.padStart(14, " "),
     );
+    const incompleteRoundDuration =
+      missionStats.rounds.find((round) => !round.isFinished)?.totalDuration ||
+      0;
     const averageTime = (missionStats.totalDuration -
       missionStats.durationBeforeUnlockDoor -
-      missionStats.durationAfterLastRound) /
+      missionStats.durationAfterLastRound -
+      incompleteRoundDuration) /
       missionStats.rounds.length;
-    console.log(`Average Time  : ${formatTime(averageTime, 3)}`);
-    console.log(`Total Time    : ${formatTime(missionStats.totalDuration, 3)}`);
+    console.log(`  Average Time  : ${formatTime(averageTime, 3)}`);
+    console.log(
+      `  Total Time    : ${formatTime(missionStats.totalDuration, 3)}`,
+    );
+    console.log("============================================================");
   }
 
   outputStats(missionStatsList: MissionStats[]) {
@@ -109,7 +121,12 @@ export class Logger {
         "Also this tool can't analyze the mission that was aborted.",
       );
     } else {
-      for (const missionStats of missionStatsList) {
+      for (const [index, missionStats] of missionStatsList.entries()) {
+        if (index !== 0) {
+          console.log(
+            "////////////////////////////////////////////////////////////",
+          );
+        }
         this.outputMissionStats(missionStats);
       }
     }
