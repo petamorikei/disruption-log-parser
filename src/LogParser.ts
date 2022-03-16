@@ -4,15 +4,9 @@ import { MissionStats } from "./MissionStats.ts";
 import { ModeState } from "./ModeState.ts";
 import { regex } from "./regex.ts";
 import { RoundStats } from "./RoundStats.ts";
-import { subTo3Decimals } from "./utils.ts";
+import { resolveMonth, subTo3Decimals } from "./utils.ts";
 
 export class LogParser {
-  private _missionStatsList: MissionStats[];
-
-  constructor() {
-    this._missionStatsList = [];
-  }
-
   extractTimeStamp(line: string) {
     return parseFloat(line.match(/^[0-9.]+/)![0]);
   }
@@ -123,6 +117,8 @@ export class LogParser {
     const fileReader = Deno.openSync(logPath);
     const gen = readLines(fileReader);
     let latestMissionName = "";
+    const missionStatsList = new Array<MissionStats>();
+    let startupTime = new Date();
 
     while (true) {
       const iter = await gen.next();
@@ -132,15 +128,29 @@ export class LogParser {
         const line = iter.value;
         if (line.match(regex.missionInfo)) {
           latestMissionName = line.split(": ").at(-1) || "N/A";
+        } else if (line.match(regex.startupTime)) {
+          const [month, date, time, year] = line.split(": ")[2].split(
+            " ",
+          ).slice(1, 5);
+          const monthIndex = resolveMonth(month);
+          const [hours, minutes, seconds] = time.split(":");
+          startupTime = new Date(
+            parseInt(year),
+            monthIndex,
+            parseInt(date),
+            parseInt(hours),
+            parseInt(minutes),
+            parseInt(seconds),
+          );
         } else if (line === "    missionType=MT_ARTIFACT") {
           const missionStats = await this.parseMission(gen);
           missionStats.missionName = latestMissionName;
+          missionStats.setStartDate(startupTime);
           // TODO: Check if result is always valid or not.
-          this._missionStatsList.push(missionStats);
+          missionStatsList.push(missionStats);
         }
       }
     }
-
-    return this._missionStatsList;
+    return missionStatsList;
   }
 }
