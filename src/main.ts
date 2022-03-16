@@ -4,7 +4,7 @@ import { Logger } from "./Logger.ts";
 import { LogParser } from "./LogParser.ts";
 import { checkUpdate } from "./utils.ts";
 
-const version = "v0.4.0";
+const version = "v0.5.0";
 const author = "@petamorikei";
 
 const getLogPath = (args: string[]) => {
