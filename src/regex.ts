@@ -1,4 +1,5 @@
 export const regex = {
+  startupTime: /^([0-9.]+) Sys \[Diag\]: Current time: /,
   missionInfo:
     /^([0-9.]+) Script \[Info\]: ThemedSquadOverlay.lua: Mission name: ([^\r\n ]+)/,
   modeState:
