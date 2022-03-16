@@ -1,6 +1,7 @@
 import { RoundStats } from "./RoundStats.ts";
 
 export class MissionStats {
+  private _startDate: Date;
   private _players: Array<string>;
   private _missionName: string;
   private _missionScore: number;
@@ -10,6 +11,7 @@ export class MissionStats {
   private _extractionTimeStamp: number;
 
   constructor(missionName: string = "") {
+    this._startDate = new Date();
     this._players = new Array<string>();
     this._missionName = missionName;
     this._missionScore = 0;
@@ -17,6 +19,10 @@ export class MissionStats {
     this._startTimeStamp = 0;
     this._doorUnlockedTimeStamp = 0;
     this._extractionTimeStamp = 0;
+  }
+
+  get startDate(): Date {
+    return this._startDate;
   }
 
   get players(): Array<string> {
@@ -117,5 +123,12 @@ export class MissionStats {
 
   getTimeElapsed(round: number): number {
     return this._rounds[round - 1].endTimeStamp - this._startTimeStamp;
+  }
+
+  setStartDate(startupTime: Date) {
+    this._startDate = new Date(startupTime);
+    this._startDate.setSeconds(
+      this._startDate.getSeconds() + Math.trunc(this._startTimeStamp),
+    );
   }
 }
