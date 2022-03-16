@@ -59,3 +59,31 @@ export const checkUpdate = async (currVer: string) => {
     console.error("%cFailed to fetch version info", "color: red");
   }
 };
+
+export const resolveMonth = (month: string) => {
+  return month === "Jan"
+    ? 0
+    : month === "Feb"
+    ? 1
+    : month === "Mar"
+    ? 2
+    : month === "Apr"
+    ? 3
+    : month === "May"
+    ? 4
+    : month === "Jun"
+    ? 5
+    : month === "Jul"
+    ? 6
+    : month === "Aug"
+    ? 7
+    : month === "Sep"
+    ? 8
+    : month === "Oct"
+    ? 9
+    : month === "Nov"
+    ? 10
+    : month === "Dec"
+    ? 11
+    : 0;
+};
