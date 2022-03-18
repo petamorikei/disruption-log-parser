@@ -13,5 +13,6 @@ export const regex = {
     /^([0-9.]+) Script \[Info\]: SentientArtifactMission.lua: Disruption: Total score is/,
   endOfMatch:
     /^([0-9.]+) Script \[Info\]: ExtractionTimer.lua: EOM: All players extracting/,
+  abort: /^([0-9.]+) Script \[Info\]: TopMenu.lua: Abort/,
   missionFailed: /^([0-9.]+) Script \[Info\]: EndOfMatch.lua: Mission Failed/,
 };
