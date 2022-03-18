@@ -46,6 +46,10 @@ export class LogParser {
             }
             currentRoundIndex++;
             const roundStats = await this.parseRound(gen);
+            if (roundStats.endTimeStamp === 0) {
+              // Indicates the round is aborted during round.
+              break;
+            }
             roundStats.startTimeStamp = this.extractTimeStamp(line);
             roundStats.roundIndex = currentRoundIndex;
             if (
@@ -72,6 +76,8 @@ export class LogParser {
           // Failure during round interval.
           missionStats.extractionTimeStamp = this.extractTimeStamp(line);
           missionStats.setTotalDurationOfRounds();
+          break;
+        } else if (regex.abort.test(line)) {
           break;
         }
       }
@@ -106,6 +112,8 @@ export class LogParser {
           // Failure during round.
           roundStats.endTimeStamp = this.extractTimeStamp(line);
           roundStats.isMissionFailedDuringRound = true;
+          break;
+        } else if (regex.abort.test(line)) {
           break;
         }
       }
@@ -146,8 +154,9 @@ export class LogParser {
           const missionStats = await this.parseMission(gen);
           missionStats.missionName = latestMissionName;
           missionStats.setStartDate(startupTime);
-          // TODO: Check if result is always valid or not.
-          missionStatsList.push(missionStats);
+          if (missionStats.extractionTimeStamp !== 0) {
+            missionStatsList.push(missionStats);
+          }
         }
       }
     }
