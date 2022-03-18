@@ -47,7 +47,7 @@ export const checkUpdate = async (currVer: string) => {
           "color: yellow",
         );
         console.log(
-          `Download latest version from here: https://github.com/petamorikei/disruption-log-parser/releases/tag/latest`,
+          `Download latest version from here: https://github.com/petamorikei/disruption-log-parser/releases/latest`,
         );
       } else {
         console.log("%cYou're up-to-date!", "color: green");
