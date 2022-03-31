@@ -131,4 +131,13 @@ export class MissionStats {
       this._startDate.getSeconds() + Math.trunc(this._startTimeStamp),
     );
   }
+
+  isMissionFailed() {
+    const lastRound = this._rounds.at(-1);
+    if (lastRound) {
+      return lastRound.isMissionFailedDuringRound;
+    } else {
+      throw new Error("Cannot find rounds in mission");
+    }
+  }
 }

@@ -80,7 +80,11 @@ export class Logger {
         }  ${formatTime(missionStats.totalDuration, 3)}`,
       );
     } else {
-      console.log(`Mission failed at Round ${missionStats.rounds.length}`);
+      if (missionStats.isMissionFailed()) {
+        console.log(`Mission failed at Round ${missionStats.rounds.length}`);
+      } else {
+        console.log(`Extracted during Round ${missionStats.rounds.length}`);
+      }
     }
 
     console.groupEnd();
