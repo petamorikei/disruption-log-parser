@@ -13,18 +13,23 @@ results, lap time per round, and mission score.
 
 - Unlock Door: From beginning of the mission to door unlock.
 - 1st round: From door unlock to end of the round.
-- 2nd - last round: From end of previous round to end of round (including interval).
-- Extraction: From end of last round to extraction. This block is omitted if you leave mission in the middle of round.
+- 2nd - last round: From end of previous round to end of round (including
+  interval).
+- Extraction: From end of last round to extraction. This block is omitted if you
+  leave mission in the middle of round.
 
 ### About summary section
 
 - Mission Score: Your mission score to be displayed on the leaderboard.
-- Average Time: Average time of rounds. This doesn't include `Unlock Door` section, `Extraction` section, and incomplete round.
+- Average Time: Average time of rounds. This doesn't include `Unlock Door`
+  section, `Extraction` section, and incomplete round.
 - Total Time: Entire time of the mission including all of phases.
 
 ## Usage
 
-Download an executable (.exe) from [releases](https://github.com/petamorikei/disruption-log-parser/releases) and launch it.
+Download an executable (.exe) from
+[releases](https://github.com/petamorikei/disruption-log-parser/releases) and
+launch it.
 
 If you want to run this tool from command line, read below steps.
 
