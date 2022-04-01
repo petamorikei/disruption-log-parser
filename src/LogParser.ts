@@ -138,7 +138,7 @@ export class LogParser {
           latestMissionName = line.split(": ").at(-1) || "N/A";
         } else if (regex.startupTime.test(line)) {
           const [month, date, time, year] = line.split(": ")[2].split(
-            " ",
+            / +/,
           ).slice(1, 5);
           const monthIndex = resolveMonth(month);
           const [hours, minutes, seconds] = time.split(":");
