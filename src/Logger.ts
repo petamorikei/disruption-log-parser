@@ -16,7 +16,7 @@ export class Logger {
     for (const result of roundStats.conduitResult) {
       conduitResultEmoji += result ? "✅" : "❌";
     }
-    conduitResultEmoji += "⬜️".repeat(4 - roundStats.conduitResult.length);
+    conduitResultEmoji += "⬜".repeat(4 - roundStats.conduitResult.length);
     const formattedRound = formatRound(roundStats.roundIndex);
     console.log(
       `Round ${formattedRound}   :  ${conduitResultEmoji} %c${
